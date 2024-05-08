@@ -181,14 +181,12 @@ function print_alarm(i, alarm) {
 
 
 function refresh_database() {
-  // setInterval(function(){
-    old_database_hash = database_hash
-    get_database_hash();
-    if (old_database_hash != database_hash) {
-      get_database();
-    }
-  // }, 1000);
-  setTimeout(refresh_database, 500);
+  old_database_hash = database_hash
+  get_database_hash();
+  if (old_database_hash != database_hash) {
+    get_database();
+  }
+  setTimeout(refresh_database, 1000);
 }
 
 function status_change_button_click(index, value) {
