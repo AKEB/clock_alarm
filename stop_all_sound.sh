@@ -1,3 +1,5 @@
 #!/bin/sh
 
-pkill mplayer && pkill play_loop_sound.sh
+pkill mplayer && pkill -f play_loop_sound
+sleep 1
+pkill mplayer && pkill -f play_loop_sound
