@@ -96,7 +96,7 @@ foreach ($sounds as $k => $file) {
 										<input class="form-check-input week" type="checkbox" id="week_<?=$k;?>" value="<?=$k;?>">
 										<label class="form-check-label week" for="week_<?=$k;?>"><?=$v;?></label>
 									</div>
-									<?
+									<?php
 								}
 								?>
 							</div>
