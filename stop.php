@@ -2,6 +2,6 @@
 
 $output = '';
 exec('./stop.sh',$output);
-echo $output;
+var_dump($output);
 echo "<br/>";
 echo "1";
