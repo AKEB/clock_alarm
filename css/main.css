@@ -61,17 +61,3 @@
 .modal-body {
 
 }
-
-
-
-
-@media only screen and (max-device-width: 480px) {
-  select {
-      background: -webkit-linear-gradient(white, #666);
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      color: white;
-      text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
-      -webkit-appearance: none;
-  }
-  }
