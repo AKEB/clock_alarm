@@ -1,7 +1,4 @@
 <?php
 
-$output = '';
-exec('./stop.sh',$output);
-var_dump($output);
-echo "<br/>";
+exec('./stop.sh');
 echo "1";
