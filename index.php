@@ -57,10 +57,6 @@ require_once('functions.php');
 					status_change_button_click($(this).attr('index'), $(this).prop('checked'));
 				});
 
-				$('.status_change_button').change(function(e) {
-
-				});
-
 				$('.edit_button').click(function(e) {
 					e.preventDefault();
 					e.stopPropagation();
