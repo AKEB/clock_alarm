@@ -10,6 +10,7 @@ $date = intval(date("j"));
 $hour = intval(date("G"));
 $minute = intval(date("i"));
 
+file_put_contents('test.log', date('Y-m-d H:i:s'));
 
 foreach($alarms as $alarm) {
 	if (!$alarm['status']) continue;
