@@ -31,7 +31,7 @@ foreach($alarms as $k=>$alarm) {
 		write_database($alarms);
 	}
 
-	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
+	exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
 
 	break;
 }
