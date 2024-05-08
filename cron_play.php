@@ -5,8 +5,6 @@ require_once('functions.php');
 $alarms = read_database();
 
 $week = intval(date("w")) - 1;
-$month = intval(date("n"));
-$date = intval(date("j"));
 $hour = intval(date("G"));
 $minute = intval(date("i"));
 
@@ -16,10 +14,8 @@ foreach($alarms as $k=>$alarm) {
 	// addToLog('1 '.var_export($alarm, true));
 	if (isset($alarm['repeat'])) {
 		if (!$alarm['repeat'][$week]) continue;
-	} else {
-		if ($alarm['month'] != $month) continue;
-		if ($alarm['date'] != $date) continue;
 	}
+
 	// addToLog('2 '.var_export($alarm, true));
 	if ($alarm['hour'] != $hour) continue;
 	if ($alarm['minute'] != $minute) continue;
@@ -35,7 +31,7 @@ foreach($alarms as $k=>$alarm) {
 		write_database($alarms);
 	}
 
-	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 &> /dev/null & ');
+	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
 
 	break;
 }

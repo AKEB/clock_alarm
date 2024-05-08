@@ -1,21 +1,109 @@
+var CLOCK_ALARMS = [];
 
 function click_plus_button() {
   console.log('click_plus_button');
 
   $('.modal-footer').hide();
   $('.modal-title').html('Новый');
+
+  const date = new Date();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+
+  $('#alarm-hour option[value="' + hour + '"]').prop('selected', true)
+  $('#alarm-minute option[value="' + minute + '"]').prop('selected', true)
+  $('input.week').prop('checked', false);
+  $('#alarm-sound option[value="default"]').prop('selected', true)
+
+  $('#alarm-volume').val(70);
+
   var myModal = $('#alarmModal');
+  myModal.attr('index', '');
   myModal.modal('show');
 }
 
 function click_edit_button(id) {
   console.log('click_edit_button id='+id);
-
+  var alarm = CLOCK_ALARMS[id];
+  console.log(alarm);
   $('.modal-footer').show();
   $('.modal-title').html('Будильник');
 
+  $('#alarm-hour option[value="' + alarm['hour'] + '"]').prop('selected', true)
+  $('#alarm-minute option[value="' + alarm['minute'] + '"]').prop('selected', true)
+  $('input.week').prop('checked', false);
+  if (alarm['repeat']) {
+    for (var i = 0; i < alarm['repeat'].length; i++) {
+      if (alarm['repeat'][i]) $('input.week#week_'+(i+1)).prop('checked', true);
+    }
+  }
+
+  $('#alarm-sound option[value="'+alarm['sound']+'"]').prop('selected', true)
+  $('#alarm-volume').val(alarm['volume'] ? alarm['volume'] : 70);
+
   var myModal = $('#alarmModal');
+  myModal.attr('index', id);
   myModal.modal('show');
+}
+
+function click_save_button() {
+  console.log('click_save_button');
+  $.ajax({
+    type: "POST",
+    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    cache: false,
+    dataType: "json",
+    data : {
+      password : password,
+      hour: $('#alarm-hour').val(),
+      minute: $('#alarm-minute').val(),
+      sound: $('#alarm-sound').val(),
+      volume: $('#alarm-volume').val(),
+      repeat: [
+        $('input.week#week_1').prop('checked'),
+        $('input.week#week_2').prop('checked'),
+        $('input.week#week_3').prop('checked'),
+        $('input.week#week_4').prop('checked'),
+        $('input.week#week_5').prop('checked'),
+        $('input.week#week_6').prop('checked'),
+        $('input.week#week_7').prop('checked')
+      ],
+      action: $('#alarmModal').attr('index')? "edit" : "add"
+    },
+    success : function(alarms) {
+      var myModal = $('#alarmModal');
+      myModal.attr('index', '');
+      myModal.modal('hide');
+      print_alarms(alarms)
+    },
+    error : function(jqXHR, textStatus, errorThrown) {
+      console.error(textStatus+' '+errorThrown);
+    }
+  });
+}
+
+function click_delete_button(index) {
+  console.log('click_delete_button index='+index);
+  $.ajax({
+    type: "POST",
+    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    cache: false,
+    dataType: "json",
+    data : {
+      password : password,
+      index: index,
+      action:"delete"
+    },
+    success : function(alarms) {
+      var myModal = $('#alarmModal');
+      myModal.attr('index', '');
+      myModal.modal('hide');
+      print_alarms(alarms)
+    },
+    error : function(jqXHR, textStatus, errorThrown) {
+      console.error(textStatus+' '+errorThrown);
+    }
+  });
 }
 
 function get_database_hash() {
@@ -44,18 +132,26 @@ function get_database() {
       password : password
     },
     success : function(alarms) {
+      CLOCK_ALARMS = alarms;
       print_alarms(alarms)
     },
     error : function(jqXHR, textStatus, errorThrown) {
+      CLOCK_ALARMS = [];
       console.error(textStatus+' '+errorThrown);
     }
   });
 }
 
 function print_alarms(alarms) {
+
   for (var i=0; i<alarms.length; i++) {
     let alarm = alarms[i];
     print_alarm(i, alarm);
+  }
+
+  var children = $('.alarms').children();
+  for (var i=alarms.length; i<children.length; i++) {
+    children[i].remove();
   }
 }
 

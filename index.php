@@ -2,6 +2,11 @@
 require_once('config.php');
 require_once('functions.php');
 
+$sounds = glob('sounds/*.mp3');
+foreach ($sounds as $k => $file) {
+	$sounds[$k] = basename($file, '.mp3');
+}
+
 ?>
 <!doctype html>
 <html lang="ru" data-bs-theme="dark">
@@ -42,7 +47,7 @@ require_once('functions.php');
 			<div class="alarms"></div>
 		</div>
 
-		<div class="modal fade" id="alarmModal" tabindex="-1">
+		<div class="modal fade" id="alarmModal" tabindex="-1" index="">
 			<div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -61,7 +66,7 @@ require_once('functions.php');
 					<div class="modal-body">
 						<div class="row">
 							<div class="col">
-								<select class="form-select form-select-lg mb-3" aria-label="Large select example">
+								<select class="form-select form-select-lg mb-3" id="alarm-hour">
 									<?php
 									for ($i = 0; $i < 24; $i++) {
 										echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
@@ -70,7 +75,7 @@ require_once('functions.php');
 								</select>
 							</div>
 							<div class="col">
-								<select class="form-select form-select-lg mb-3" aria-label="Large select example">
+								<select class="form-select form-select-lg mb-3" id="alarm-minute">
 									<?php
 									for ($i = 0; $i < 60; $i++) {
 										echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
@@ -79,10 +84,45 @@ require_once('functions.php');
 								</select>
 							</div>
 						</div>
-
+						<hr/>
+						<div class="row w-100">
+							<label for="alarm-sound" class="col-sm-2 col-form-label">Повторять</label>
+							<div class="col w-100">
+								<?php
+								$weeks = [1 => 'Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+								foreach ($weeks as $k => $v) {
+									?>
+									<div class="form-check form-lg-check form-check-inline">
+										<input class="form-check-input week" type="checkbox" id="week_<?=$k;?>" value="<?=$k;?>">
+										<label class="form-check-label week" for="week_<?=$k;?>"><?=$v;?></label>
+									</div>
+									<?
+								}
+								?>
+							</div>
+						</div>
+						<hr/>
+						<div class="row">
+							<div class="col">
+								<label for="alarm-sound" class="col-sm-2 col-form-label">Мелодия</label>
+								<select class="form-select form-select-lg mb-3" id="alarm-sound" >
+									<?php
+									foreach ($sounds as $k => $v) {
+										echo '<option value="'.$v.'">'.$v.'</option>';
+									}
+									?>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label for="customRange2" class="form-label">Громкость</label>
+								<input type="range" class="form-range" min="0" max="100" id="alarm-volume">
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-text btn-sm text-danger">Удалить будильник</button>
+						<button type="button" class="delete-button btn btn-text btn-sm text-danger">Удалить будильник</button>
 					</div>
 				</div>
 			</div>
@@ -104,12 +144,18 @@ require_once('functions.php');
 					status_change_button_click($(this).attr('index'), $(this).prop('checked'));
 				});
 
-				$('body').delegate('.alarm.card', 'swipeleft', function(e) {
-					console.log('swipeleft');
+				$('body').delegate('.delete-button', 'click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					click_delete_button($('#alarmModal').attr('index'));
 				});
-				$('body').delegate('.alarm.card', 'swiperight', function(e) {
-					console.log('swiperight');
+
+				$('body').delegate('.save-button', 'click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					click_save_button();
 				});
+
 
 				$('body').delegate('.edit_button', 'click', function(e) {
 					e.preventDefault();

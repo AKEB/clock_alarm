@@ -11,7 +11,8 @@ if (constant('PASSWORD') != $_POST['password']) {
 		if (isset($alarm['repeat'])) {
 			$alarms[$k]['repeat_text'] = alarm_get_repeat_text($alarm['repeat']);
 		} else {
-			$time = mktime($alarm['hour'], $alarm['minute'], 0, $alarm['month'], $alarm['date'], date("Y"));
+			$time = mktime($alarm['hour'], $alarm['minute'], 0, date('m'), date('d'), date("Y"));
+			if ($time < time()) $time += 86400;
 			$alarms[$k]['repeat_text'] = alarm_get_onetime_text($time);
 		}
 	}
