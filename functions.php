@@ -64,3 +64,33 @@ function alarm_get_onetime_text($time) : string {
 	$text[] = date('Y', $time);
 	return implode(' ', $text);
 }
+
+function addToLog($message, $dir=null, $file=null) {
+	$current_dir = 'logs/'.date('Y-m-d').'/';
+	if ($dir) $current_dir = $dir;
+	@mkdir($current_dir,0775,true);
+	$k = intval(date('i')/30);
+	$currentFile = date('Y_m_d__H_').sprintf("%02d",$k).'.log';
+	if ($file) $currentFile = $file;
+	$fp = fopen($current_dir.$currentFile, 'a+');
+	if (!$fp) {
+		error_log("ERROR!!! Ошибка открытия файла %s",$current_dir.$currentFile);
+		return false;
+	}
+	if (flock($fp, LOCK_EX)) {
+		$log = [
+			date("Y-m-d H:i:s"),
+			time(),
+			$message,
+		];
+		fwrite($fp,implode(' || ', $log)."\n");
+		flock($fp, LOCK_UN);
+	} else {
+		error_log("ERROR!!! Ошибка получения блокировки на файл %s",$current_dir.$currentFile);
+		fclose($fp);
+		return false;
+	}
+	fclose($fp);
+	chmod($current_dir.$currentFile, 0664);
+	return true;
+}
