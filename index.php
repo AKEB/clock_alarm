@@ -2,85 +2,54 @@
 require_once('config.php');
 require_once('functions.php');
 
-$alarms = read_database();
-
-// var_export($alarms);
-
-// $param = [
-// 	[
-// 		'hour' => 9,
-// 		'minute' => 0,
-// 		'sound' => 'example.mp3',
-// 		'month' => 5,
-// 		'date' => 8,
-// 	],
-// 	[
-// 		'hour' => 8,
-// 		'minute' => 45,
-// 		'sound' => 'example.mp3',
-// 		'repeat' => [
-// 			0 => true,
-// 			1 => true,
-// 			2 => true,
-// 			3 => true,
-// 			4 => true,
-// 			5 => false,
-// 			6 => false,
-// 		],
-// 	]
-// ];
-
-// write_database($param);
 ?>
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-bs-theme="dark">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Bootstrap demo</title>
-		<link href="/bootstrap.min.css?atime=<?=fileatime('bootstrap.min.css');?>" rel="stylesheet">
-		<link href="/main.css?atime=<?=fileatime('main.css');?>" rel="stylesheet">
+		<title>Умный Будильник</title>
+		<link href="/css/bootstrap.min.css?atime=<?=fileatime('css/bootstrap.min.css');?>" rel="stylesheet">
+		<link href="/css/main.css?atime=<?=fileatime('css/main.css');?>" rel="stylesheet">
+		<link href="/icons/font/bootstrap-icons.min.css?atime=<?=fileatime('icons/font/bootstrap-icons.min.css');?>" rel="stylesheet">
+		<script src="/js/jquery-3.7.1.min.js?atime=<?=fileatime('js/jquery-3.7.1.min.js');?>"></script>
 	</head>
 	<body>
 		<div class="container">
-			<h1>Мои будильники</h1>
-
-			<?php
-			foreach ($alarms as $k=>$alarm) {
-				?>
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<div class="col col-xs-7 col-sm-7 col-md-8 col-lg-8 col-xl-9 col-xxl-10">
-								<div class="time"><?php printf("%02d:%02d", intval($alarm['hour']), intval($alarm['minute'])); ?></div>
-							</div>
-							<div class="col">
-								<div class="form-check form-switch form-check-reverse checkbox">
-									<input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse" <?=isset($alarm['status']) && $alarm['status'] ? 'checked' : ''; ?>>
-									<label class="form-check-label" for="flexSwitchCheckReverse"></label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<?php
-								if (isset($alarm['repeat'])) {
-									echo alarm_get_repeat_text($alarm['repeat']);
-								} else {
-									$time = mktime($alarm['hour'], $alarm['minute'], 0, $alarm['month'], $alarm['date'], date("Y"));
-									echo alarm_get_onetime_text($time);
-								}
-								?>
-							</div>
-						</div>
-					</div>
-				</div>
-				<?php
-			}
-			?>
-
+			<h1 class="display-3">Мои будильники <span class="plus_button"><i class="bi bi-plus-square"></i></span></h1>
+			<div class="alarms"></div>
 		</div>
-		<script src="/main.js?atime=<?=fileatime('main.js');?>"></script>
-		<script src="/bootstrap.bundle.min.js?atime=<?=fileatime('bootstrap.bundle.min.js');?>"></script>
+		<script>
+			var database_hash = null;
+			var password = '<?=constant('PASSWORD');?>';
+			$(document).ready(function() {
+
+				$('.plus_button').click(function(e) {
+					e.preventDefault();
+					click_plus_button();
+				});
+
+				$('body').delegate('.status_change_button', 'change', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					status_change_button_click($(this).attr('index'), $(this).prop('checked'));
+				});
+
+				$('.status_change_button').change(function(e) {
+
+				});
+
+				$('.edit_button').click(function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					click_edit_button($(this).attr('id'));
+				});
+
+				refresh_database();
+
+			});
+		</script>
+		<script src="/js/main.js?atime=<?=fileatime('js/main.js');?>"></script>
+		<script src="/js/bootstrap.bundle.min.js?atime=<?=fileatime('js/bootstrap.bundle.min.js');?>"></script>
 	</body>
 </html>

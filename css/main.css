@@ -1,0 +1,31 @@
+.card {
+  --bs-card-spacer-y: 0.2rem;
+  --bs-card-spacer-x: 0.3rem;
+}
+
+.time {
+  font-size: 40pt;
+}
+
+.checkbox {
+  font-size: 30pt;
+  padding-top: 10pt;
+  right:0px;
+  top:0px;
+  z-index: 100;
+  position: absolute;
+}
+
+.form-switch.form-check-reverse {
+  padding-right: 2.9em;
+}
+
+.plus_button {
+  float: right;
+  cursor: pointer;
+}
+
+.edit_button {
+  cursor: pointer;
+  border: 0px solid #ccc;
+}
