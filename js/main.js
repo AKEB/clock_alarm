@@ -16,6 +16,7 @@ function click_plus_button() {
   $('#alarm-sound option[value="default"]').prop('selected', true)
 
   $('#alarm-volume').val(70);
+  $('#alarm-volume-value').html(70);
 
   var myModal = $('#alarmModal');
   myModal.attr('index', '');
@@ -40,6 +41,7 @@ function click_edit_button(id) {
 
   $('#alarm-sound option[value="'+alarm['sound']+'"]').prop('selected', true)
   $('#alarm-volume').val(alarm['volume'] ? alarm['volume'] : 70);
+  $('#alarm-volume-value').html(alarm['volume'] ? alarm['volume'] : 70);
 
   var myModal = $('#alarmModal');
   myModal.attr('index', id);

@@ -116,8 +116,8 @@ foreach ($sounds as $k => $file) {
 						</div>
 						<div class="row">
 							<div class="col">
-								<label for="customRange2" class="form-label">Громкость</label>
-								<input type="range" class="form-range" min="0" max="100" id="alarm-volume">
+								<label for="customRange2" class="form-label">Громкость: <span id="alarm-volume-value">70</span></label>
+								<input type="range" class="form-range" min="0" max="100" step="5" id="alarm-volume">
 							</div>
 						</div>
 					</div>
@@ -161,6 +161,10 @@ foreach ($sounds as $k => $file) {
 					e.preventDefault();
 					e.stopPropagation();
 					click_edit_button($(this).attr('id'));
+				});
+
+				$('body').delegate('#alarm-volume', 'input', function(e) {
+					$('#alarm-volume-value').html($('#alarm-volume').val());
 				});
 
 
