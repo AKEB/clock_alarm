@@ -27,7 +27,7 @@ function safe_file_rewrite($fileName, $dataToSave) {
 			$canWrite = flock($fp, LOCK_EX);
 			// If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
 			if(!$canWrite) usleep(round(rand(0, 100)*1000));
-		} while ((!$canWrite)and((microtime(TRUE)-$startTime) < 5));
+		} while ((!$canWrite) && ((microtime(TRUE)-$startTime) < 5));
 		//file was locked so now we can store information
 		if ($canWrite) {
 			fwrite($fp, $dataToSave);
