@@ -24,7 +24,7 @@ foreach($alarms as $alarm) {
 	if ($alarm['hour'] != $hour) continue;
 	if ($alarm['minute'] != $minute) continue;
 
-	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example';
+	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example.mp3';
 
-	exec('./play.sh sounds/'. $alarm['sound'].'.mp3');
+	exec('./play.sh sounds/'. $alarm['sound']);
 }
