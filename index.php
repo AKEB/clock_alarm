@@ -55,7 +55,7 @@ $alarms = read_database();
 								<div class="time"><?php printf("%02d:%02d", intval($alarm['hour']), intval($alarm['minute'])); ?></div>
 							</div>
 							<div class="col">
-								<div class="form-check form-switch form-check-reverse" style="font-size: 50pt;">
+								<div class="form-check form-switch form-check-reverse checkbox">
 									<input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse" <?=isset($alarm['status']) && $alarm['status'] ? 'checked' : ''; ?>>
 									<label class="form-check-label" for="flexSwitchCheckReverse"></label>
 								</div>
