@@ -28,12 +28,12 @@ foreach($alarms as $k=>$alarm) {
 	// addToLog('3 '.var_export($alarm, true));
 	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example.mp3';
 
-	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'].' &> /dev/null & ');
-
 	if (!isset($alarm['repeat'])) {
 		$alarms[$k]['status'] = false;
 		$save = true;
 	}
+
+	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'].' &> /dev/null & ');
 
 	break;
 }
