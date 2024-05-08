@@ -1,0 +1,40 @@
+mkdir icon.iconset
+sips -z 16 16     Icon1024.png --out icon.iconset/icon_16x16.png
+sips -z 32 32     Icon1024.png --out icon.iconset/icon_16x16@2x.png
+sips -z 32 32     Icon1024.png --out icon.iconset/icon_32x32.png
+sips -z 64 64     Icon1024.png --out icon.iconset/icon_32x32@2x.png
+sips -z 128 128   Icon1024.png --out icon.iconset/icon_128x128.png
+sips -z 256 256   Icon1024.png --out icon.iconset/icon_128x128@2x.png
+sips -z 256 256   Icon1024.png --out icon.iconset/icon_256x256.png
+sips -z 512 512   Icon1024.png --out icon.iconset/icon_256x256@2x.png
+sips -z 512 512   Icon1024.png --out icon.iconset/icon_512x512.png
+cp Icon1024.png icon.iconset/icon_512x512@2x.png
+iconutil -c icns icon.iconset
+rm -R icon.iconset
+
+sips -z 72 72     Icon1024.png --out images/apple-icon-72x72.png
+sips -z 76 76     Icon1024.png --out images/apple-icon-76x76.png
+sips -z 114 114   Icon1024.png --out images/apple-icon-114x114.png
+sips -z 120 120   Icon1024.png --out images/apple-icon-120x120.png
+sips -z 144 144   Icon1024.png --out images/apple-icon-144x144.png
+sips -z 152 152   Icon1024.png --out images/apple-icon-152x152.png
+sips -z 180 180   Icon1024.png --out images/apple-icon-180x180.png
+
+sips -z 16 16     Icon1024.png --out images/favicon-16x16.png 
+sips -z 32 32     Icon1024.png --out images/favicon-32x32.png 
+sips -z 96 96     Icon1024.png --out images/favicon-96x96.png 
+sips -z 70 70     Icon1024.png --out images/ms-icon-70x70.png 
+sips -z 144 144   Icon1024.png --out images/ms-icon-144x144.png 
+sips -z 150 150   Icon1024.png --out images/ms-icon-150x150.png 
+sips -z 310 310   Icon1024.png --out images/ms-icon-310x310.png 
+sips -z 57 57     Icon1024.png --out images/apple-icon-57x57.png 
+sips -z 192 192   Icon1024.png --out images/android-icon-192x192.png 
+sips -z 60 60     Icon1024.png --out images/apple-icon-60x60.png 
+sips -z 144 144   Icon1024.png --out images/android-icon-144x144.png 
+sips -z 96 96     Icon1024.png --out images/android-icon-96x96.png 
+sips -z 72 72     Icon1024.png --out images/android-icon-72x72.png 
+sips -z 36 36     Icon1024.png --out images/android-icon-36x36.png 
+sips -z 48 48     Icon1024.png --out images/android-icon-48x48.png
+
+sips -z 192 192   Icon1024.png --out images/apple-icon.png 
+sips -z 192 192   Icon1024.png --out images/apple-icon-precomposed.png
