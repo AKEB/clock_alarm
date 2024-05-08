@@ -29,3 +29,49 @@
   cursor: pointer;
   border: 0px solid #ccc;
 }
+
+.modal-header {
+  padding:0.2em;
+}
+
+.cancel-button {
+  float: left;
+  /* cursor: pointer;
+  left:0px;
+  top:0px;
+  padding-top:0px; */
+}
+
+.save-button {
+  float: right;
+  /* cursor: pointer;
+  right:0px;
+  top:0px;
+  position: absolute; */
+}
+
+.modal-title {
+  text-align: center;
+  cursor: default;
+  left: auto;
+  right: auto;
+  top: 0px;
+}
+
+.modal-body {
+
+}
+
+
+
+
+@media only screen and (max-device-width: 480px) {
+  select {
+      background: -webkit-linear-gradient(white, #666);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      color: white;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+      -webkit-appearance: none;
+  }
+  }

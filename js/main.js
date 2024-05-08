@@ -1,10 +1,21 @@
 
 function click_plus_button() {
   console.log('click_plus_button');
+
+  $('.modal-footer').hide();
+  $('.modal-title').html('Новый');
+  var myModal = $('#alarmModal');
+  myModal.modal('show');
 }
 
 function click_edit_button(id) {
   console.log('click_edit_button id='+id);
+
+  $('.modal-footer').show();
+  $('.modal-title').html('Будильник');
+
+  var myModal = $('#alarmModal');
+  myModal.modal('show');
 }
 
 function get_database_hash() {
