@@ -11,8 +11,6 @@ $hour = intval(date("G"));
 $minute = intval(date("i"));
 
 // addToLog('Start');
-// addToLog(var_export($alarms, true));
-$save = false;
 foreach($alarms as $k=>$alarm) {
 	if (!$alarm['status']) continue;
 	// addToLog('1 '.var_export($alarm, true));
@@ -26,20 +24,19 @@ foreach($alarms as $k=>$alarm) {
 	if ($alarm['hour'] != $hour) continue;
 	if ($alarm['minute'] != $minute) continue;
 	// addToLog('3 '.var_export($alarm, true));
-	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example.mp3';
+	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example';
+
+	if (!file_exists('sounds/'.$alarm['sound'].'.mp3')) {
+		$alarm['sound'] = 'example';
+	}
 
 	if (!isset($alarm['repeat'])) {
 		$alarms[$k]['status'] = false;
-		$save = true;
+		write_database($alarms);
 	}
 
-	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'].' &> /dev/null & ');
+	shell_exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 &> /dev/null & ');
 
 	break;
 }
-
-if ($save) {
-	write_database($alarms);
-}
-
 // addToLog('Finish');

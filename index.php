@@ -57,11 +57,19 @@ require_once('functions.php');
 					status_change_button_click($(this).attr('index'), $(this).prop('checked'));
 				});
 
+				$('body').delegate('.alarm.card', 'swipeleft', function(e) {
+					console.log('swipeleft');
+				});
+				$('body').delegate('.alarm.card', 'swiperight', function(e) {
+					console.log('swiperight');
+				});
+
 				$('.edit_button').click(function(e) {
 					e.preventDefault();
 					e.stopPropagation();
 					click_edit_button($(this).attr('id'));
 				});
+
 
 				refresh_database();
 
