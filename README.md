@@ -91,12 +91,12 @@ sudo reboot
 
 Increase volume by 5%
 
-```amixer sset PCM 5%+```
+```amixer -q -M set PCM 5%+```
 
 Decrease volume by 5%
 
-```amixer sset PCM 5%-```
+```amixer -q -M set PCM 5%-```
 
 Set volume to 50%
 
-```amixer sset PCM 50%```
+```amixer -q -M set PCM 50%```
