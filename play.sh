@@ -1,6 +1,6 @@
 #!/bin/sh
 
-amixer sset PCM $2% > /dev/null 2>&1
+amixer -q -M set PCM $2% > /dev/null 2>&1
 
 while [ 1 ] ;
 do
