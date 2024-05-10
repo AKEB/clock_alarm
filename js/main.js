@@ -39,13 +39,19 @@ function click_edit_button(id) {
     }
   }
 
-  $('#alarm-sound option[value="'+alarm['sound']+'"]').prop('selected', true)
+  $('#alarm-sound option[value="'+alarm['sound']+'"]').prop('selected', true).change();
   $('#alarm-volume').val(alarm['volume'] ? alarm['volume'] : 70);
   $('#alarm-volume-value').html(alarm['volume'] ? alarm['volume'] : 70);
 
   var myModal = $('#alarmModal');
   myModal.attr('index', id);
   myModal.modal('show');
+}
+
+function alarm_sound_change() {
+  console.log('alarm_sound_change');
+  var audio = $('#alarm-sound-player');
+  audio.attr('src', '/sounds/' + $('#alarm-sound').val() + '.mp3');
 }
 
 function click_save_button() {
@@ -209,6 +215,22 @@ function status_change_button_click(index, value) {
     },
     error : function(jqXHR, textStatus, errorThrown) {
       console.error(textStatus+' '+errorThrown);
+    }
+  });
+}
+
+function alarm_sound_volume_change() {
+  console.log('alarm_sound_volume_change');
+  $.ajax({
+    type: "POST",
+    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    cache: false,
+    async: true,
+    dataType: "json",
+    data : {
+      password : password,
+      volume: $('#alarm-volume').val(),
+      action: "change_sound_test",
     }
   });
 }

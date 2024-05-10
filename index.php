@@ -116,6 +116,11 @@ foreach ($sounds as $k => $file) {
 						</div>
 						<div class="row">
 							<div class="col">
+								<audio controls src="sounds/default.mp3" id="alarm-sound-player"></audio>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
 								<label for="customRange2" class="form-label">Громкость: <span id="alarm-volume-value">70</span></label>
 								<input type="range" class="form-range" min="0" max="100" step="5" id="alarm-volume">
 							</div>
@@ -165,6 +170,14 @@ foreach ($sounds as $k => $file) {
 
 				$('body').delegate('#alarm-volume', 'input', function(e) {
 					$('#alarm-volume-value').html($('#alarm-volume').val());
+				});
+
+				$('body').delegate('#alarm-volume', 'change', function(e) {
+					alarm_sound_volume_change();
+				});
+
+				$('body').delegate('#alarm-sound', 'change', function(e) {
+					alarm_sound_change();
 				});
 
 

@@ -40,6 +40,10 @@ if (constant('PASSWORD') != $_POST['password']) {
 				$alarms[$index] = $alarm;
 			}
 			break;
+		case 'change_sound_test':
+			$volume = intval($_POST['volume']);
+			exec('nohup ./sound_check.sh sound_check.mp3 '.$volume.' &> /dev/null & ');
+			break;
 	}
 	$alarms = array_values($alarms);
 	write_database($alarms);
