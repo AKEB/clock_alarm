@@ -15,6 +15,8 @@ function read_database() : array {
 			$data = @json_decode($data, true, 10, JSON_INVALID_UTF8_IGNORE);
 		}
 	}
+	if (!$data) $data = [];
+	if (!is_array($data)) $data = [];
 	return $data ?? [];
 }
 
