@@ -20,7 +20,7 @@ function session_check() {
 		$token = md5($session['login'] . $USERS[$session['login']]);
 		if ($token !== $session['token']) break;
 		$error = false;
-		if ($session['time'] < time() - 5*60) {
+		if (!isset($session['time']) || intval($session['time']) < time() - 5*60) {
 			$session['time'] = time();
 			$session = base64_encode(json_encode($session));
 			setcookie('session', $session, time() + 60 * 60 * 24 * 90, '/');
