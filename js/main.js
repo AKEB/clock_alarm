@@ -13,7 +13,7 @@ function click_plus_button() {
   $('#alarm-hour option[value="' + hour + '"]').prop('selected', true)
   $('#alarm-minute option[value="' + minute + '"]').prop('selected', true)
   $('input.week').prop('checked', false);
-  $('#alarm-sound option[value="default"]').prop('selected', true)
+  $('#alarm-sound option[value="default"]').prop('selected', true).change();
 
   $('#alarm-volume').val(70);
   $('#alarm-volume-value').html(70);
@@ -51,11 +51,19 @@ function click_edit_button(id) {
 function alarm_sound_change() {
   console.log('alarm_sound_change');
   var audio = $('#alarm-sound-player');
+  document.getElementById('alarm-sound-player').pause();
+  $('#alarm-sound-play-button').show();
+  $('#alarm-sound-pause-button').hide();
   audio.attr('src', '/sounds/' + $('#alarm-sound').val() + '.mp3');
 }
 
 function click_save_button() {
   console.log('click_save_button');
+
+  document.getElementById('alarm-sound-player').pause();
+  $('#alarm-sound-play-button').show();
+  $('#alarm-sound-pause-button').hide();
+
   $.ajax({
     type: "POST",
     url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
@@ -93,6 +101,11 @@ function click_save_button() {
 
 function click_delete_button(index) {
   console.log('click_delete_button index='+index);
+
+  document.getElementById('alarm-sound-player').pause();
+  $('#alarm-sound-play-button').show();
+  $('#alarm-sound-pause-button').hide();
+
   $.ajax({
     type: "POST",
     url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
@@ -235,3 +248,83 @@ function alarm_sound_volume_change() {
     }
   });
 }
+
+
+
+
+
+
+
+$(document).ready(function() {
+
+  $('.plus_button').click(function(e) {
+    e.preventDefault();
+    click_plus_button();
+  });
+
+  $('body').delegate('.status_change_button', 'change', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    status_change_button_click($(this).attr('index'), $(this).prop('checked'));
+  });
+
+  $('body').delegate('.delete-button', 'click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    click_delete_button($('#alarmModal').attr('index'));
+  });
+
+  $('body').delegate('.save-button', 'click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    click_save_button();
+  });
+
+
+  $('body').delegate('.edit_button', 'click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    click_edit_button($(this).attr('id'));
+  });
+
+  $('body').delegate('#alarm-volume', 'input', function(e) {
+    $('#alarm-volume-value').html($('#alarm-volume').val());
+  });
+
+  $('body').delegate('#alarm-volume', 'change', function(e) {
+    alarm_sound_volume_change();
+  });
+
+  $('body').delegate('#alarm-sound', 'change', function(e) {
+    alarm_sound_change();
+  });
+
+  $('body').delegate('.cancel-button', 'click', function(e) {
+    document.getElementById('alarm-sound-player').pause();
+    $('#alarm-sound-play-button').show();
+    $('#alarm-sound-pause-button').hide();
+  });
+
+  $('body').delegate('#alarm-sound-play-button', 'click', function(e) {
+    document.getElementById('alarm-sound-player').play();
+    $('#alarm-sound-play-button').hide();
+    $('#alarm-sound-pause-button').show();
+  });
+
+  $('body').delegate('#alarm-sound-pause-button', 'click', function(e) {
+    document.getElementById('alarm-sound-player').pause();
+    $('#alarm-sound-play-button').show();
+    $('#alarm-sound-pause-button').hide();
+  });
+
+  $('body').delegate('#alarm-sound-volume-up-button', 'click', function(e) {
+    document.getElementById('alarm-sound-player').volume += 0.1
+  });
+
+  $('body').delegate('#alarm-sound-volume-down-button', 'click', function(e) {
+    document.getElementById('alarm-sound-player').volume -= 0.1
+  });
+
+  refresh_database();
+
+});

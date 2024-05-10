@@ -104,19 +104,22 @@ foreach ($sounds as $k => $file) {
 						<hr/>
 						<div class="row">
 							<div class="col">
+								<audio src="sounds/default.mp3" id="alarm-sound-player"></audio>
 								<label for="alarm-sound" class="col-sm-2 col-form-label">Мелодия</label>
-								<select class="form-select form-select-lg mb-3" id="alarm-sound" >
-									<?php
-									foreach ($sounds as $k => $v) {
-										echo '<option value="'.$v.'">'.$v.'</option>';
-									}
-									?>
-								</select>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<audio controls src="sounds/default.mp3" id="alarm-sound-player"></audio>
+								<div class="input-group">
+									<select class="form-select" id="alarm-sound" >
+										<?php
+										foreach ($sounds as $k => $v) {
+											echo '<option value="'.$v.'">'.$v.'</option>';
+										}
+										?>
+									</select>
+									<button class="btn btn-sm btn-outline-secondary" type="button" id="alarm-sound-play-button"><i class="bi bi-play-fill"></i></button>
+									<button class="btn btn-sm btn-outline-secondary" type="button" id="alarm-sound-pause-button" style="display:none;"><i class="bi bi-pause-fill"></i></button>
+									<button class="btn btn-outline-secondary" type="button" id="alarm-sound-volume-down-button"><i class="bi bi-volume-down-fill"></i></button>
+									<button class="btn btn-outline-secondary" type="button" id="alarm-sound-volume-up-button"><i class="bi bi-volume-up"></i></button>
+								</div>
+
 							</div>
 						</div>
 						<div class="row">
@@ -136,54 +139,6 @@ foreach ($sounds as $k => $file) {
 		<script>
 			var database_hash = null;
 			var password = '<?=constant('PASSWORD');?>';
-			$(document).ready(function() {
-
-				$('.plus_button').click(function(e) {
-					e.preventDefault();
-					click_plus_button();
-				});
-
-				$('body').delegate('.status_change_button', 'change', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					status_change_button_click($(this).attr('index'), $(this).prop('checked'));
-				});
-
-				$('body').delegate('.delete-button', 'click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					click_delete_button($('#alarmModal').attr('index'));
-				});
-
-				$('body').delegate('.save-button', 'click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					click_save_button();
-				});
-
-
-				$('body').delegate('.edit_button', 'click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					click_edit_button($(this).attr('id'));
-				});
-
-				$('body').delegate('#alarm-volume', 'input', function(e) {
-					$('#alarm-volume-value').html($('#alarm-volume').val());
-				});
-
-				$('body').delegate('#alarm-volume', 'change', function(e) {
-					alarm_sound_volume_change();
-				});
-
-				$('body').delegate('#alarm-sound', 'change', function(e) {
-					alarm_sound_change();
-				});
-
-
-				refresh_database();
-
-			});
 		</script>
 		<script src="/js/main.js?atime=<?=fileatime('js/main.js');?>"></script>
 		<script src="/js/bootstrap.bundle.min.js?atime=<?=fileatime('js/bootstrap.bundle.min.js');?>"></script>
