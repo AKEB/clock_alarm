@@ -3,3 +3,4 @@ logs/*
 config.php
 *.db
 nohup.out
+get_database_hash.txt
