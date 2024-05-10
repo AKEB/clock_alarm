@@ -8,7 +8,7 @@ $session = session_check();
 if (!$session) {
 	echo "[]";
 } else {
-	if ($fp = fopen(constant('DB_FILE_NAME'), 'w')) {
+	if ($fp = fopen(constant('DB_FILE_NAME'), 'r+')) {
 		// Lock File
 		do {
 			$canWrite = flock($fp, LOCK_EX);

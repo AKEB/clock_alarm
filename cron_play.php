@@ -2,7 +2,7 @@
 require_once('config.php');
 require_once('functions.php');
 
-if ($fp = fopen(constant('DB_FILE_NAME'), 'w')) {
+if ($fp = fopen(constant('DB_FILE_NAME'), 'r+')) {
 	// Lock File
 	do {
 		$canWrite = flock($fp, LOCK_EX);
