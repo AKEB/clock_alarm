@@ -20,6 +20,7 @@ function session_check() {
 		$token = md5($session['login'] . $USERS[$session['login']]);
 		if ($token !== $session['token']) break;
 		$error = false;
+		setcookie('session', $_COOKIE['session'], time() + 60 * 60 * 24 * 90, '/');
 	} while(0);
 
 	if ($error) {
