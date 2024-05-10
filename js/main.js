@@ -76,6 +76,7 @@ function click_save_button() {
         $('input.week#week_6').prop('checked'),
         $('input.week#week_7').prop('checked')
       ],
+      index: $('#alarmModal').attr('index'),
       action: $('#alarmModal').attr('index')? "edit" : "add"
     },
     success : function(alarms) {
