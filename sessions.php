@@ -20,7 +20,11 @@ function session_check() {
 		$token = md5($session['login'] . $USERS[$session['login']]);
 		if ($token !== $session['token']) break;
 		$error = false;
-		setcookie('session', $_COOKIE['session'], time() + 60 * 60 * 24 * 90, '/');
+		if ($session['time'] < time() - 5*60) {
+			$session['time'] = time();
+			$session = base64_encode(json_encode($session));
+			setcookie('session', $session, time() + 60 * 60 * 24 * 90, '/');
+		}
 	} while(0);
 
 	if ($error) {
@@ -47,6 +51,7 @@ function session_login($login, $password) {
 	$session = [
 		'login' => $login,
 		'token' => $token,
+		'time' => time(),
 	];
 
 	$session = base64_encode(json_encode($session));
