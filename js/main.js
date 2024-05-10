@@ -129,7 +129,7 @@ function click_delete_button(index) {
 function get_database_hash() {
   $.ajax({
     type: "GET",
-    url : "/get_database_hash.php?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/get_database_hash.txt?t="+Math.round((new Date()).getTime() / 1000),
     cache: false,
     async: false,
     dataType: "text",
