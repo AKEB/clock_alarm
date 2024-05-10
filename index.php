@@ -114,8 +114,8 @@ foreach ($sounds as $k => $file) {
 										}
 										?>
 									</select>
-									<button class="btn btn-sm btn-outline-secondary" type="button" id="alarm-sound-play-button"><i class="bi bi-play-fill"></i></button>
-									<button class="btn btn-sm btn-outline-secondary" type="button" id="alarm-sound-pause-button" style="display:none;"><i class="bi bi-pause-fill"></i></button>
+									<button class="btn btn-outline-secondary" type="button" id="alarm-sound-play-button"><i class="bi bi-play-fill"></i></button>
+									<button class="btn btn-outline-secondary" type="button" id="alarm-sound-pause-button" style="display:none;"><i class="bi bi-pause-fill"></i></button>
 									<button class="btn btn-outline-secondary" type="button" id="alarm-sound-volume-down-button"><i class="bi bi-volume-down-fill"></i></button>
 									<button class="btn btn-outline-secondary" type="button" id="alarm-sound-volume-up-button"><i class="bi bi-volume-up"></i></button>
 								</div>
