@@ -4,6 +4,7 @@ date_default_timezone_set("Europe/Moscow");
 
 function write_database($array) {
 	safe_file_rewrite(constant('DB_FILE_NAME'), json_encode($array, JSON_PRETTY_PRINT));
+	safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')));
 }
 
 function read_database() : array {
