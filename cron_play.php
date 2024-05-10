@@ -2,37 +2,54 @@
 require_once('config.php');
 require_once('functions.php');
 
-$alarms = read_database();
+if ($fp = fopen(constant('DB_FILE_NAME'), 'w')) {
+	// Lock File
+	do {
+		$canWrite = flock($fp, LOCK_EX);
+		// If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
+		if(!$canWrite) usleep(round(rand(0, 100)*1000));
+	} while ((!$canWrite) && ((microtime(TRUE)-$startTime) < 5));
 
-$week = intval(date("w")) - 1;
-$hour = intval(date("G"));
-$minute = intval(date("i"));
+	if ($canWrite) {
+		$alarms = read_database();
 
-// addToLog('Start');
-foreach($alarms as $k=>$alarm) {
-	if (!$alarm['status']) continue;
-	// addToLog('1 '.var_export($alarm, true));
-	if (isset($alarm['repeat'])) {
-		if (!$alarm['repeat'][$week]) continue;
+		$week = intval(date("w")) - 1;
+		$hour = intval(date("G"));
+		$minute = intval(date("i"));
+
+		// addToLog('Start');
+		foreach($alarms as $k=>$alarm) {
+			if (!$alarm['status']) continue;
+			// addToLog('1 '.var_export($alarm, true));
+			if (isset($alarm['repeat'])) {
+				if (!$alarm['repeat'][$week]) continue;
+			}
+
+			// addToLog('2 '.var_export($alarm, true));
+			if ($alarm['hour'] != $hour) continue;
+			if ($alarm['minute'] != $minute) continue;
+			// addToLog('3 '.var_export($alarm, true));
+			if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example';
+
+			if (!file_exists('sounds/'.$alarm['sound'].'.mp3')) {
+				$alarm['sound'] = 'example';
+			}
+
+			if (!isset($alarm['repeat'])) {
+				$alarms[$k]['status'] = false;
+				write_database($alarms, true);
+			}
+
+			exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
+
+			break;
+		}
+
+		flock($fp, LOCK_UN);
 	}
-
-	// addToLog('2 '.var_export($alarm, true));
-	if ($alarm['hour'] != $hour) continue;
-	if ($alarm['minute'] != $minute) continue;
-	// addToLog('3 '.var_export($alarm, true));
-	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example';
-
-	if (!file_exists('sounds/'.$alarm['sound'].'.mp3')) {
-		$alarm['sound'] = 'example';
-	}
-
-	if (!isset($alarm['repeat'])) {
-		$alarms[$k]['status'] = false;
-		write_database($alarms);
-	}
-
-	exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
-
-	break;
+	fclose($fp);
 }
+
+safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')));
+
 // addToLog('Finish');

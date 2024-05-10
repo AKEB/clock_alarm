@@ -2,8 +2,8 @@
 setlocale(LC_ALL, 'ru_RU', 'ru_RU.UTF-8', 'ru', 'russian');
 date_default_timezone_set("Europe/Moscow");
 
-function write_database($array) {
-	safe_file_rewrite(constant('DB_FILE_NAME'), json_encode($array, JSON_PRETTY_PRINT));
+function write_database($array, $alreadyLock = false) {
+	safe_file_rewrite(constant('DB_FILE_NAME'), json_encode($array, JSON_PRETTY_PRINT), $alreadyLock);
 	safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')) . '_' . microtime(true));
 }
 
@@ -18,14 +18,17 @@ function read_database() : array {
 	return $data ?? [];
 }
 
-function safe_file_rewrite($fileName, $dataToSave) {
+function safe_file_rewrite($fileName, $dataToSave, $alreadyLock = false) {
 	if ($fp = fopen($fileName, 'w')) {
 		$startTime = microtime(TRUE);
-		do {
-			$canWrite = flock($fp, LOCK_EX);
-			// If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
-			if(!$canWrite) usleep(round(rand(0, 100)*1000));
-		} while ((!$canWrite) && ((microtime(TRUE)-$startTime) < 5));
+		if ($alreadyLock) $canWrite = true;
+		else {
+			do {
+				$canWrite = flock($fp, LOCK_EX);
+				// If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
+				if(!$canWrite) usleep(round(rand(0, 100)*1000));
+			} while ((!$canWrite) && ((microtime(TRUE)-$startTime) < 5));
+		}
 		//file was locked so now we can store information
 		if ($canWrite) {
 			fwrite($fp, $dataToSave);
