@@ -66,7 +66,7 @@ function click_save_button() {
 
   $.ajax({
     type: "POST",
-    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/update_database.php",
     cache: false,
     dataType: "json",
     data : {
@@ -107,7 +107,7 @@ function click_delete_button(index) {
 
   $.ajax({
     type: "POST",
-    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/update_database.php",
     cache: false,
     dataType: "json",
     data : {
@@ -129,7 +129,7 @@ function click_delete_button(index) {
 function get_database_hash() {
   $.ajax({
     type: "GET",
-    url : "/get_database_hash.txt?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/get_database_hash.txt",
     cache: false,
     async: false,
     dataType: "text",
@@ -145,7 +145,7 @@ function get_database_hash() {
 function get_database() {
   $.ajax({
     type: "POST",
-    url : "/get_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/get_database.php",
     cache: false,
     dataType: "json",
     data : {},
@@ -211,7 +211,7 @@ function status_change_button_click(index, value) {
   console.log('status_change_button_click index='+index+' value='+value);
   $.ajax({
     type: "POST",
-    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/update_database.php",
     cache: false,
     dataType: "json",
     data : {
@@ -232,7 +232,7 @@ function alarm_sound_volume_change() {
   console.log('alarm_sound_volume_change');
   $.ajax({
     type: "POST",
-    url : "/update_database.php?t="+Math.round((new Date()).getTime() / 1000),
+    url : "/update_database.php",
     cache: false,
     async: true,
     dataType: "json",
