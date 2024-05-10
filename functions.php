@@ -2,9 +2,6 @@
 setlocale(LC_ALL, 'ru_RU', 'ru_RU.UTF-8', 'ru', 'russian');
 date_default_timezone_set("Europe/Moscow");
 
-
-
-
 function write_database($array) {
 	safe_file_rewrite(constant('DB_FILE_NAME'), json_encode($array, JSON_PRETTY_PRINT));
 }

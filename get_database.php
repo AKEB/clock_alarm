@@ -1,9 +1,11 @@
 <?php
 require_once('config.php');
 require_once('functions.php');
+require_once('sessions.php');
 
+$session = session_check();
 
-if (constant('PASSWORD') != $_POST['password']) {
+if (!$session) {
 	echo "[]";
 } else {
 	$alarms = read_database();

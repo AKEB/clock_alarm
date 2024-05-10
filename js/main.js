@@ -70,7 +70,6 @@ function click_save_button() {
     cache: false,
     dataType: "json",
     data : {
-      password : password,
       hour: $('#alarm-hour').val(),
       minute: $('#alarm-minute').val(),
       sound: $('#alarm-sound').val(),
@@ -112,7 +111,6 @@ function click_delete_button(index) {
     cache: false,
     dataType: "json",
     data : {
-      password : password,
       index: index,
       action:"delete"
     },
@@ -150,9 +148,7 @@ function get_database() {
     url : "/get_database.php?t="+Math.round((new Date()).getTime() / 1000),
     cache: false,
     dataType: "json",
-    data : {
-      password : password
-    },
+    data : {},
     success : function(alarms) {
       CLOCK_ALARMS = alarms;
       print_alarms(alarms)
@@ -219,7 +215,6 @@ function status_change_button_click(index, value) {
     cache: false,
     dataType: "json",
     data : {
-      password : password,
       index: index,
       action:"change_status",
       status: value ? 1 : 0,
@@ -242,17 +237,11 @@ function alarm_sound_volume_change() {
     async: true,
     dataType: "json",
     data : {
-      password : password,
       volume: $('#alarm-volume').val(),
       action: "change_sound_test",
     }
   });
 }
-
-
-
-
-
 
 
 $(document).ready(function() {
