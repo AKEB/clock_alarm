@@ -11,13 +11,15 @@ if (!$session) {
 	$alarms = (array)read_database();
 	$index = intval($_POST['index'] ?? null);
 	$action = strval($_POST['action'] ?? '');
-
+	$save = false;
 	switch ($action) {
 		case 'change_status':
 			$alarms[$index]['status'] = boolval($_POST['status']);
+			$save = true;
 			break;
 		case 'delete':
 			unset($alarms[$index]);
+			$save = true;
 			break;
 		case 'add':
 		case 'edit':
@@ -42,6 +44,7 @@ if (!$session) {
 				$alarm['status'] = $alarms[$index]['status'];
 				$alarms[$index] = $alarm;
 			}
+			$save = true;
 			break;
 		case 'change_sound_test':
 			$volume = intval($_POST['volume']);
@@ -49,8 +52,9 @@ if (!$session) {
 			break;
 	}
 	$alarms = array_values($alarms);
-	write_database($alarms);
-
+	if ($save) {
+		write_database($alarms);
+	}
 	foreach ($alarms as $k=>$alarm) {
 		if (isset($alarm['repeat'])) {
 			$alarms[$k]['repeat_text'] = alarm_get_repeat_text($alarm['repeat']);
