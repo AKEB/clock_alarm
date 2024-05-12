@@ -72,8 +72,9 @@ function addToLog($message, $dir=null, $file=null) {
 	$current_dir = 'logs/'.date('Y-m-d').'/';
 	if ($dir) $current_dir = $dir;
 	@mkdir($current_dir,0775,true);
-	$k = intval(date('i')/30);
-	$currentFile = date('Y_m_d__H_').sprintf("%02d",$k).'.log';
+	// $k = intval(date('i')/30);
+	// $currentFile = date('Y_m_d__H_').sprintf("%02d",$k).'.log';
+	$currentFile = date('Y_m_d__H_').'00.log';
 	if ($file) $currentFile = $file;
 	$fp = fopen($current_dir.$currentFile, 'a+');
 	if (!$fp) {
