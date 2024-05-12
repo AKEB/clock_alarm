@@ -42,15 +42,19 @@ if ($fp = fopen(constant('DB_FILE_NAME'), 'r+')) {
 				$alarms[$k]['status'] = false;
 				write_database($alarms, true);
 			}
-   addToLog("play sound");
+			addToLog("play sound");
 			exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
 
 			break;
 		}
-  addToLog("unlock file");
+		addToLog("unlock file");
 		flock($fp, LOCK_UN);
+	} else {
+		addToLog('ERROR: Unable to lock file');
 	}
 	fclose($fp);
+} else {
+	addToLog('ERROR: Unable to open file');
 }
 
 safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')));
