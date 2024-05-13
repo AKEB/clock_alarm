@@ -52,7 +52,7 @@ server {
     deny all;
   }
 
-  location ~* \.(sqlite3|sh|log)$ {
+  location ~* \.(sqlite3|sh|log|src)$ {
     deny all;
   }
 
