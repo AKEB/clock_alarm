@@ -5,7 +5,7 @@
 ```bash
 sudo apt-get update && sudo apt-get upgrade -y
 
-sudo apt-get install -y mplayer mc curl alsa-utils git
+sudo apt-get install -y mplayer mc curl alsa-utils git sqlite3
 sudo apt-get install -y shairport-sync
 
 sudo apt-get install -y nginx php8.3-fpm
@@ -17,7 +17,11 @@ sudo apt-get install php8.3-common php8.3-mysql php8.3-xml php8.3-xmlrpc php8.3-
 
 ```bash
 * * * * * /bin/bash /home/akeb/clock_alarm/cron_play.sh
-
+* * * * * (sleep 10 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
+* * * * * (sleep 20 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
+* * * * * (sleep 30 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
+* * * * * (sleep 40 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
+* * * * * (sleep 50 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
 ```
 
 ### Config Nginx
@@ -28,12 +32,31 @@ sudo nano /etc/nginx/sites-available/default
 
 ```bash
 server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
 
-root /home/akeb/clock_alarm/;
+  access_log  off;
+  root /home/akeb/clock_alarm/;
 
-index index.html index.htm index.nginx-debian.html index.php;
+  index index.html index.php;
 
-# ... some other code
+  server_name _;
+
+  location ~ /\. {
+    deny all;
+  }
+
+  location ~* \.(sqlite3|sh|log)$ {
+    deny all;
+  }
+
+  location ~* /(logs|lib)/ {
+    deny all;
+  }
+  
+  location / {
+    try_files $uri $uri/ =404;
+  }
 
   location ~ \.php$ {
     include snippets/fastcgi-php.conf;
