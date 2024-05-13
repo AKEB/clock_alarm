@@ -2,62 +2,47 @@
 require_once('lib/common.php');
 $startTime = time();
 
-addToLog("Start");
-if ($fp = fopen(constant('DB_FILE_NAME'), 'r+')) {
-	// Lock File
-	addToLog("lock file");
-	do {
-		$canWrite = flock($fp, LOCK_EX);
-		// If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
-		if(!$canWrite) usleep(round(rand(0, 100)*1000));
-	} while ((!$canWrite) && ((microtime(TRUE)-$startTime) < 5));
+$minuteEndTime = mktime(date('H'), date('i'), 60, date('m'), date('d'), date('Y'));
 
-	if ($canWrite) {
-		addToLog("canWrite");
-		$alarms = read_database();
+$alarms = \ClockAlarm::data();
 
-		$week = intval(date("w")) - 1;
-		$hour = intval(date("G"));
-		$minute = intval(date("i"));
-
-		foreach($alarms as $k=>$alarm) {
-			if (!$alarm['status']) continue;
-			// addToLog('1 '.var_export($alarm, true));
-			if (isset($alarm['repeat'])) {
-				if (!$alarm['repeat'][$week]) continue;
-			}
-
-			// addToLog('2 '.var_export($alarm, true));
-			if ($alarm['hour'] != $hour) continue;
-			if ($alarm['minute'] != $minute) continue;
-			// addToLog('3 '.var_export($alarm, true));
-			if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'example';
-
-			if (!file_exists('sounds/'.$alarm['sound'].'.mp3')) {
-				$alarm['sound'] = 'example';
-			}
-
-			if (!isset($alarm['repeat'])) {
-				$alarms[$k]['status'] = false;
-				write_database($alarms, true);
-			}
-			addToLog("play sound");
-			exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
-
-			break;
-		}
-		addToLog("unlock file");
-		flock($fp, LOCK_UN);
-	} else {
-		addToLog('ERROR: Unable to lock file');
-		TelegramBot::sendMessage(constant('BOT_ADMIN_ID'),'[#ClockAlarm Error] Unable to lock file');
-	}
-	fclose($fp);
-} else {
-	addToLog('ERROR: Unable to open file');
-	TelegramBot::sendMessage(constant('BOT_ADMIN_ID'),'[#ClockAlarm Error] Unable to open file');
+if (!$alarms) {
+	addToLog('Ошибка получения списка будильников');
+	TelegramBot::sendMessage(constant('BOT_ADMIN_ID'),'[#ClockAlarm Error] Ошибка получения списка будильников');
 }
 
-safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')));
+$week = intval(date("w")) - 1;
+$hour = intval(date("G"));
+$minute = intval(date("i"));
 
-addToLog('Finish');
+foreach($alarms as $k=>$alarm) {
+	if (!$alarm['status']) continue;
+	if (isset($alarm['repeat'])) {
+		if (!$alarm['repeat'][$week]) continue;
+	}
+	if ($alarm['hour'] != $hour) continue;
+	if ($alarm['minute'] != $minute) continue;
+
+	if ($alarm['play_last_time'] > time()) continue;
+
+	if (!isset($alarm['sound']) || !$alarm['sound']) $alarm['sound'] = 'default';
+
+	if (!file_exists('sounds/'.$alarm['sound'].'.mp3')) {
+		$alarm['sound'] = 'default';
+	}
+	$param = [
+		'id' => $alarm['id'],
+	];
+
+	if (!isset($alarm['repeat'])) {
+		$param['status'] = false;
+	}
+	$param['update_time'] = time();
+	$param['play_last_time'] = $minuteEndTime;
+	\ClockAlarm::save($param);
+	echo ('PLAY id='.$alarm['id']);
+	exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
+	break;
+}
+
+safe_file_rewrite('get_database_hash.txt', md5_file(constant('SQL_DB_FILE_NAME')));

@@ -8,6 +8,8 @@ date_default_timezone_set("Europe/Moscow");
 global $lib_path;
 $lib_path = dirname(__FILE__);
 
+require_once($lib_path.'/placeholder.php');
+
 function my_auto_loader($class) {
 	global $lib_path;
 	$filename = $lib_path .'/'. str_replace('\\', '/', $class) . '.php';
@@ -17,24 +19,9 @@ function my_auto_loader($class) {
 }
 spl_autoload_register('my_auto_loader',true,true);
 
+global $db_obj;
+$db_obj = new \SQLite3_Database(constant('SQL_DB_FILE_NAME'));
 
-function write_database($array, $alreadyLock = false) {
-	safe_file_rewrite(constant('DB_FILE_NAME'), json_encode($array, JSON_PRETTY_PRINT), $alreadyLock);
-	safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')));
-}
-
-function read_database() : array {
-	$data = [];
-	if (file_exists(constant('DB_FILE_NAME'))) {
-		$data = @file_get_contents(constant('DB_FILE_NAME'));
-		if ($data) {
-			$data = @json_decode($data, true, 10, JSON_INVALID_UTF8_IGNORE);
-		}
-	}
-	if (!$data) $data = [];
-	if (!is_array($data)) $data = [];
-	return $data ?? [];
-}
 
 function safe_file_rewrite($fileName, $dataToSave, $alreadyLock = false) {
 	if ($fp = fopen($fileName, 'w')) {

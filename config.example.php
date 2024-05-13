@@ -1,6 +1,7 @@
 <?php
 
 define('DB_FILE_NAME','database.db');
+define('SQL_DB_FILE_NAME','database.sqlite3');
 
 global $USERS;
 $USERS = [

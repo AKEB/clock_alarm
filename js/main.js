@@ -161,15 +161,19 @@ function get_database() {
 }
 
 function print_alarms(alarms) {
-
-  for (var i=0; i<alarms.length; i++) {
-    let alarm = alarms[i];
-    print_alarm(i, alarm);
+  console.log(alarms);
+  for (var id of Object.keys(alarms)) {
+    let alarm = alarms[id];
+    print_alarm(alarm);
   }
 
   var children = $('.alarms').children();
-  for (var i=alarms.length; i<children.length; i++) {
-    children[i].remove();
+  for (var i=0; i<children.length; i++) {
+    console.log('Id = '+$(children[i]).attr('index'));
+    if (!alarms[$(children[i]).attr('index')]) {
+      console.log('remove');
+      $(children[i]).remove();
+    }
   }
 }
 
@@ -179,20 +183,21 @@ function pad(num, size) {
   return num;
 }
 
-function print_alarm(i, alarm) {
-  console.log(i, alarm);
-  var object = $('.alarms>.card#alarm_'+i)[0];
+function print_alarm(alarm) {
+  const id = alarm['id'];
+  console.log(alarm);
+  var object = $('.alarms>.card#alarm_'+id)[0];
   if (!object || object.length == 0) {
-    var time = '<div class="row edit_button" id="'+i+'"><div class="col"><div class="time" id="alarm_'+i+'">'+pad(alarm.hour, 2)+':'+pad(alarm.minute, 2)+'</div></div></div>';
-    var days = '<div class="row edit_button" id="'+i+'"><div class="col days" id="alarm_'+i+'">'+alarm.repeat_text+'</div></div>';
-    var checkbox = '<div class="form-check form-switch form-check-reverse checkbox"><input index="'+i+'" class="form-check-input status_change_button" type="checkbox" id="alarm_'+i+'" '+(alarm.status ? 'checked' : '')+'></div>';
+    var time = '<div class="row edit_button" id="'+id+'"><div class="col"><div class="time" id="alarm_'+id+'">'+pad(alarm.hour, 2)+':'+pad(alarm.minute, 2)+'</div></div></div>';
+    var days = '<div class="row edit_button" id="'+id+'"><div class="col days" id="alarm_'+id+'">'+alarm.repeat_text+'</div></div>';
+    var checkbox = '<div class="form-check form-switch form-check-reverse checkbox"><input index="'+id+'" class="form-check-input status_change_button" type="checkbox" id="alarm_'+id+'" '+(alarm.status ? 'checked' : '')+'></div>';
 
-    $('.alarms').append('<div class="alarm card" id="alarm_'+i+'"><div class="card-body">' + time + days + checkbox + '</div></div>');
-    var object = $('.alarms>.card#alarm_'+i)[0];
+    $('.alarms').append('<div class="alarm card" id="alarm_'+id+'" index="'+id+'"><div class="card-body">' + time + days + checkbox + '</div></div>');
+    var object = $('.alarms>.card#alarm_'+id)[0];
   } else {
-    $('.days#alarm_'+i).html(alarm.repeat_text);
-    $('.time#alarm_'+i).html(pad(alarm.hour, 2)+':'+pad(alarm.minute, 2));
-    $('input#alarm_'+i).prop('checked', alarm.status);
+    $('.days#alarm_'+id).html(alarm.repeat_text);
+    $('.time#alarm_'+id).html(pad(alarm.hour, 2)+':'+pad(alarm.minute, 2));
+    $('input#alarm_'+id).prop('checked', alarm.status);
   }
 
 }
