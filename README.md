@@ -124,6 +124,12 @@ listen.group = akeb
 sudo reboot
 ```
 
+## Initialize Database
+
+```bash
+php init.php
+```
+
 ## Help
 
 Increase volume by 5%
