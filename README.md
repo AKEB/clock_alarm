@@ -54,6 +54,14 @@ server {
     deny all;
   }
   
+  location ~* \.example.php$ {
+    deny all;
+  }
+
+  location ~* /config.php {
+    deny all;
+  }
+
   location / {
     try_files $uri $uri/ =404;
   }
