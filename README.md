@@ -1,4 +1,6 @@
-# clock_alarm
+# Clock Alarm
+
+Smart alarm clock based on raspberry pi 3 and a speaker connected to it
 
 ## Install
 
@@ -14,6 +16,10 @@ sudo apt-get install php8.3-common php8.3-mysql php8.3-xml php8.3-xmlrpc php8.3-
 ```
 
 ## Cron
+
+```bash
+crontab -e
+```
 
 ```bash
 * * * * * /bin/bash /home/akeb/clock_alarm/cron_play.sh
@@ -53,7 +59,7 @@ server {
   location ~* /(logs|lib)/ {
     deny all;
   }
-  
+
   location ~* \.example.php$ {
     deny all;
   }
