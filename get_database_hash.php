@@ -1,8 +1,7 @@
 <?php
-require_once('config.php');
-require_once('sessions.php');
+require_once('lib/common.php');
 
-$session = session_check();
+$session = Session::check();
 
 if ($session) {
 	echo md5_file(constant('DB_FILE_NAME'));

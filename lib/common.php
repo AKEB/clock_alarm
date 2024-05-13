@@ -1,6 +1,22 @@
 <?php
+
+require_once('config.php');
+
 setlocale(LC_ALL, 'ru_RU', 'ru_RU.UTF-8', 'ru', 'russian');
 date_default_timezone_set("Europe/Moscow");
+
+global $lib_path;
+$lib_path = dirname(__FILE__);
+
+function my_auto_loader($class) {
+	global $lib_path;
+	$filename = $lib_path .'/'. str_replace('\\', '/', $class) . '.php';
+	if (file_exists($filename)) {
+		require_once($filename);
+	}
+}
+spl_autoload_register('my_auto_loader',true,true);
+
 
 function write_database($array, $alreadyLock = false) {
 	safe_file_rewrite(constant('DB_FILE_NAME'), json_encode($array, JSON_PRETTY_PRINT), $alreadyLock);

@@ -1,6 +1,5 @@
 <?php
-require_once('config.php');
-require_once('functions.php');
+require_once('lib/common.php');
 $startTime = time();
 
 addToLog("Start");
@@ -51,10 +50,12 @@ if ($fp = fopen(constant('DB_FILE_NAME'), 'r+')) {
 		flock($fp, LOCK_UN);
 	} else {
 		addToLog('ERROR: Unable to lock file');
+		TelegramBot::sendMessage(constant('BOT_ADMIN_ID'),'[#ClockAlarm Error] Unable to lock file');
 	}
 	fclose($fp);
 } else {
 	addToLog('ERROR: Unable to open file');
+	TelegramBot::sendMessage(constant('BOT_ADMIN_ID'),'[#ClockAlarm Error] Unable to open file');
 }
 
 safe_file_rewrite('get_database_hash.txt', md5_file(constant('DB_FILE_NAME')));

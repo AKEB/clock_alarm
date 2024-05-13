@@ -1,9 +1,7 @@
 <?php
-require_once('config.php');
-require_once('functions.php');
-require_once('sessions.php');
+require_once('lib/common.php');
 
-$session = session_check();
+$session = Session::check();
 
 if (!$session) {
 	echo "[]";
