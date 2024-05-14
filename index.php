@@ -87,7 +87,7 @@ foreach ($sounds as $k => $file) {
 							</div>
 						</div>
 						<div class="modal-body">
-							<div class="row">
+							<div class="row w-100 mb-3">
 								<div class="col">
 									<select class="form-select form-select-lg mb-3" id="alarm-hour">
 										<?php
@@ -107,9 +107,8 @@ foreach ($sounds as $k => $file) {
 									</select>
 								</div>
 							</div>
-							<hr/>
-							<div class="row w-100">
-								<label for="alarm-sound" class="col-sm-2 col-form-label">Повторять</label>
+							<div class="row w-100 mb-3">
+								<label for="alarm-sound" class="col-sm-3 col-form-label">Повторять</label>
 								<div class="col w-100">
 									<?php
 									$weeks = [1 => 'Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
@@ -124,8 +123,7 @@ foreach ($sounds as $k => $file) {
 									?>
 								</div>
 							</div>
-							<hr/>
-							<div class="row">
+							<div class="row w-100 mb-3">
 								<div class="col">
 									<audio src="sounds/default.mp3" id="alarm-sound-player"></audio>
 									<label for="alarm-sound" class="col-sm-2 col-form-label">Мелодия</label>
@@ -145,7 +143,7 @@ foreach ($sounds as $k => $file) {
 
 								</div>
 							</div>
-							<div class="row">
+							<div class="row w-100 mb-3">
 								<div class="col">
 									<label for="customRange2" class="form-label">Громкость: <span id="alarm-volume-value">70</span></label>
 									<input type="range" class="form-range" min="0" max="100" step="5" id="alarm-volume">
