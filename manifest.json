@@ -1,9 +1,9 @@
 {
   "name": "Clock Alarm",
-  "short_name": "Умный будильник",
+  "short_name": "Умный Будильник",
   "theme_color": "#ffffff",
   "background_color": "#000000",
-  "display": "minimal-ui",
+  "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "https://clock.akeb.ru/"
