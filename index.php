@@ -19,6 +19,7 @@ foreach ($sounds as $k => $file) {
 		<meta name="copyright" content="Vadim Babadzhanyan" />
 		<meta name="Author" lang="ru" content="Вадим Бабаджанян" />
 
+  <link rel="manifest" href="/manifest.json" />
 		<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 		<link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
