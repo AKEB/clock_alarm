@@ -1,0 +1,10 @@
+{
+  "name": "Clock Alarm",
+  "short_name": "clock",
+  "theme_color": "#ffffff",
+  "background_color": "#000000",
+  "display": "minimal-ui",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "https://clock.akeb.ru/"
+}
