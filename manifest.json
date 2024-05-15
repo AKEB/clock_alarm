@@ -1,8 +1,8 @@
 {
   "name": "Clock Alarm",
   "short_name": "Умный Будильник",
-  "theme_color": "#495057",
-  "background_color": "#495057",
+  "theme_color": "#212529",
+  "background_color": "#212529",
   "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",
