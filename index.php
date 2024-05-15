@@ -16,7 +16,7 @@ $BGColor = '#212529';
 <html lang="ru" data-bs-theme="dark" dir="ltr">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, viewport-fit=cover, initial-scale=1">
+		<meta name="viewport" content="width=device-width, user-scalable=yes, viewport-fit=cover, initial-scale=1">
 
 		<title><?=$Title;?></title>
 

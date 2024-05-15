@@ -1,6 +1,11 @@
 .card {
   --bs-card-spacer-y: 0.2rem;
   --bs-card-spacer-x: 0.3rem;
+  margin-bottom: .2rem;
+}
+
+.card:last-of-type {
+  margin-bottom: 1rem;
 }
 
 .time {
@@ -36,18 +41,10 @@
 
 .cancel-button {
   float: left;
-  /* cursor: pointer;
-  left:0px;
-  top:0px;
-  padding-top:0px; */
 }
 
 .save-button {
   float: right;
-  /* cursor: pointer;
-  right:0px;
-  top:0px;
-  position: absolute; */
 }
 
 .modal-title {
@@ -58,10 +55,6 @@
   top: 0px;
 }
 
-.modal-body {
-
-}
-
 input.week[type=checkbox]
 {
   /* Double-sized Checkboxes */
@@ -69,6 +62,7 @@ input.week[type=checkbox]
   -moz-transform: scale(1.5); /* FF */
   -webkit-transform: scale(1.5); /* Safari and Chrome */
   -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
   padding: 9px;
   margin-bottom: 15px;
 }
