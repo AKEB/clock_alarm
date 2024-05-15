@@ -8,18 +8,29 @@ foreach ($sounds as $k => $file) {
 	$sounds[$k] = basename($file, '.mp3');
 }
 
+$Title = 'Умный Будильник';
+$BGColor = '#212529';
+
 ?>
 <!doctype html>
-<html lang="ru" data-bs-theme="dark">
+<html lang="ru" data-bs-theme="dark" dir="ltr">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Умный Будильник</title>
-		<meta name="author" lang="en" content="Vadim Babadzhanyan" />
-		<meta name="copyright" content="Vadim Babadzhanyan" />
-		<meta name="Author" lang="ru" content="Вадим Бабаджанян" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, viewport-fit=cover, initial-scale=1">
 
-  <link rel="manifest" href="/manifest.json" />
+		<title><?=$Title;?></title>
+
+		<meta name="Author" lang="en" content="Vadim Babadzhanyan" />
+		<meta name="Author" lang="ru" content="Вадим Бабаджанян" />
+		<meta name="copyright" content="Vadim Babadzhanyan" />
+
+		<link rel="manifest" href="/manifest.json" crossorigin="use-credentials"/>
+		<meta name="msapplication-config" content="/browserconfig.xml">
+
+		<link rel="modulepreload" href="/js/main.js?atime=<?=fileatime('js/main.js');?>" crossorigin="use-credentials">
+		<link rel="modulepreload" href="/js/jquery-3.7.1.min.js?atime=<?=fileatime('js/jquery-3.7.1.min.js');?>" crossorigin="use-credentials">
+		<link rel="modulepreload" href="/js/bootstrap.bundle.min.js?atime=<?=fileatime('js/bootstrap.bundle.min.js');?>" crossorigin="use-credentials">
+
 		<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 		<link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
@@ -34,13 +45,23 @@ foreach ($sounds as $k => $file) {
 		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-		<meta name="msapplication-TileColor" content="#212529">
+
+		<meta name="msapplication-TileColor" content="<?=$BGColor;?>">
 		<meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
-		<meta name="theme-color" content="#212529">
+		<meta name="theme-color" content="<?=$BGColor;?>">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="apple-mobile-web-app-title" content="<?=$Title;?>">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="application-name" content="<?=$Title;?>">
+		<meta name="referrer" content="same-origin">
+		<meta name="color-scheme" content="dark">
 
 		<link href="/css/bootstrap.min.css?atime=<?=fileatime('css/bootstrap.min.css');?>" rel="stylesheet">
 		<link href="/css/main.css?atime=<?=fileatime('css/main.css');?>" rel="stylesheet">
 		<link href="/icons/font/bootstrap-icons.min.css?atime=<?=fileatime('icons/font/bootstrap-icons.min.css');?>" rel="stylesheet">
+
 		<script src="/js/jquery-3.7.1.min.js?atime=<?=fileatime('js/jquery-3.7.1.min.js');?>"></script>
 	</head>
 	<body>
