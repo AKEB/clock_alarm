@@ -23,7 +23,7 @@ if (!$session) {
 				'volume' => intval($_POST['volume']),
 				'status' => true,
 				'update_time' => time(),
-				'repeat' => '',
+				'repeat' => null,
 			];
 			if ($repeat) $alarm['repeat'] = (array)$_POST['repeat'];
 			
