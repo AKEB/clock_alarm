@@ -23,8 +23,10 @@ if (!$session) {
 				'volume' => intval($_POST['volume']),
 				'status' => true,
 				'update_time' => time(),
+				'repeat' => '',
 			];
 			if ($repeat) $alarm['repeat'] = (array)$_POST['repeat'];
+			
 
 			if ($action == 'add') {
 				$alarm['status'] = true;
