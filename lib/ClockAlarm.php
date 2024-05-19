@@ -60,7 +60,7 @@ class ClockAlarm extends DatabaseInstanceAbstract{
 			$data[$alarm['id']] = $alarm;
 			error_log($alarm['id']." = ".json_encode($alarm));
 		}
-		error_log("");
+		error_log("}");
 		return json_encode($data);
 	}
 
