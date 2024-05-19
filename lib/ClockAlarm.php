@@ -47,7 +47,7 @@ class ClockAlarm extends DatabaseInstanceAbstract{
 
 	public static function getAlarmsJson() {
 		$alarms = \ClockAlarm::data();
-		error_log('$alarms = ' . var_export($alarms, true));
+		error_log('$alarms = {');
 		$data = [];
 		foreach( $alarms as $alarm ) {
 			if (isset($alarm['repeat'])) {
@@ -58,7 +58,9 @@ class ClockAlarm extends DatabaseInstanceAbstract{
 				$alarm['repeat_text'] = alarm_get_onetime_text($time);
 			}
 			$data[$alarm['id']] = $alarm;
+			error_log($alarm['id']." = ".json_encode($alarm));
 		}
+		error_log("");
 		return json_encode($data);
 	}
 
