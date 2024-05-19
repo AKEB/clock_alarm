@@ -11,9 +11,8 @@ if (!$alarms) {
 	TelegramBot::sendMessage(constant('BOT_ADMIN_ID'),'[#ClockAlarm Error] Ошибка получения списка будильников');
 }
 
-error_log(date("w"));
-
 $week = intval(date("w")) - 1;
+if($week == -1) $week = 6;
 $hour = intval(date("G"));
 $minute = intval(date("i"));
 
