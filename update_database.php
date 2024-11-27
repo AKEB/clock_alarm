@@ -26,7 +26,7 @@ if (!$session) {
 				'repeat' => null,
 			];
 			if ($repeat) $alarm['repeat'] = (array)$_POST['repeat'];
-			
+
 
 			if ($action == 'add') {
 				$alarm['status'] = true;
@@ -36,7 +36,7 @@ if (!$session) {
 			} else {
 				$alarm['id'] = $index;
 				$old = \ClockAlarm::get($index);
-				$alarm['status'] = $old['status'];
+				$alarm['status'] = true;
 			}
 			$alarm['id'] = \ClockAlarm::save($alarm);
 			break;
