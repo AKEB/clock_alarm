@@ -19,11 +19,13 @@ export PBS_REPOSITORY='user@pbs@host:datastore'
 export PBS_PASSWORD_FILE=/root/pbs-password
 export PBS_FINGERPRINT='aa:bb:...'
 export PBS_BACKUP_GROUP='host/clock'
+export PBS_CLIENT_TARBALL_URL='https://github.com/AKEB/clock_alarm/releases/download/pbs-client-v4.0.18-arm64/proxmox-backup-client-v4.0.18-1-arm64.tgz'
+export PBS_CLIENT_SHA256='bb6ab63a10358cee93d0fc6a275979bcc2edb9813880e9efe212043023eace94'
 curl -fsSL https://raw.githubusercontent.com/AKEB/clock_alarm/main/bootstrap_clock.sh | sudo -E bash
 ```
 
-If the fresh OS does not already have `proxmox-backup-client`, also provide
-`PBS_CLIENT_TARBALL_URL` or set `PBS_CLIENT_BIN` to an installed client.
+If the fresh OS already has `proxmox-backup-client`, you can omit
+`PBS_CLIENT_TARBALL_URL` and set `PBS_CLIENT_BIN` to the installed client.
 
 The bootstrap restores `clock-state.pxar` when it exists. Older backups that
 only contain `root.pxar` still work as a fallback, but they are slower to scan.

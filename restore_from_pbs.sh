@@ -10,6 +10,7 @@ PBS_STATE_ARCHIVE="${PBS_STATE_ARCHIVE:-clock-state.pxar}"
 PBS_RESTORE_SOURCE="${PBS_RESTORE_SOURCE:-auto}"
 PBS_CLIENT_BIN="${PBS_CLIENT_BIN:-}"
 PBS_CLIENT_TARBALL_URL="${PBS_CLIENT_TARBALL_URL:-}"
+PBS_CLIENT_SHA256="${PBS_CLIENT_SHA256:-}"
 PBS_SNAPSHOT="${PBS_SNAPSHOT:-latest}"
 RESTORE_NETPLAN="${RESTORE_NETPLAN:-0}"
 RESTORE_PBS_CONFIG="${RESTORE_PBS_CONFIG:-1}"
@@ -43,6 +44,9 @@ install_client_from_url() {
 	log "Installing proxmox-backup-client from PBS_CLIENT_TARBALL_URL"
 	mkdir -p /usr/local/bin/pbs_client
 	curl -fsSL "$PBS_CLIENT_TARBALL_URL" -o /tmp/proxmox-backup-client.tgz
+	if [ -n "$PBS_CLIENT_SHA256" ]; then
+		printf '%s  %s\n' "$PBS_CLIENT_SHA256" /tmp/proxmox-backup-client.tgz | sha256sum -c -
+	fi
 	tar -xzf /tmp/proxmox-backup-client.tgz -C /usr/local/bin/pbs_client --strip-components=1
 	chmod 0755 /usr/local/bin/pbs_client/proxmox-backup-client /usr/local/bin/pbs_client/proxmox-backup-client.sh 2>/dev/null || true
 }
