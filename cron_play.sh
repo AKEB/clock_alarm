@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pushd /home/akeb/clock_alarm/
+pushd /var/www/clock_alarm/
 /usr/bin/php ./cron_play.php
 popd

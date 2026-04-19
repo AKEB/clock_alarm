@@ -4,6 +4,34 @@ Smart alarm clock based on raspberry pi 3 and a speaker connected to it
 
 ## Install
 
+For a clean Raspberry Pi OS / Ubuntu install, use the bootstrap script:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AKEB/clock_alarm/main/bootstrap_clock.sh | sudo bash
+```
+
+To restore mutable state from Proxmox Backup Server, provide PBS credentials as
+environment variables. The secrets are intentionally not stored in Git:
+
+```bash
+export RESTORE_MODE=pbs
+export PBS_REPOSITORY='user@pbs@host:datastore'
+export PBS_PASSWORD_FILE=/root/pbs-password
+export PBS_FINGERPRINT='aa:bb:...'
+export PBS_BACKUP_GROUP='host/clock'
+curl -fsSL https://raw.githubusercontent.com/AKEB/clock_alarm/main/bootstrap_clock.sh | sudo -E bash
+```
+
+If the fresh OS does not already have `proxmox-backup-client`, also provide
+`PBS_CLIENT_TARBALL_URL` or set `PBS_CLIENT_BIN` to an installed client.
+
+The bootstrap restores `clock-state.pxar` when it exists. Older backups that
+only contain `root.pxar` still work as a fallback, but they are slower to scan.
+After the first successful bootstrap with PBS credentials, the installed daily
+backup job writes both `root.pxar` and a small `clock-state.pxar`.
+
+Manual legacy install:
+
 ```bash
 sudo apt-get update && sudo apt-get upgrade -y
 
@@ -17,17 +45,30 @@ sudo apt-get install php8.3-common php8.3-mysql php8.3-xml php8.3-xmlrpc php8.3-
 
 ## Cron
 
+For low-write Raspberry Pi installs, prefer the systemd loop service from
+`install_low_write.sh` instead of cron:
+
+```bash
+sudo bash /var/www/clock_alarm/install_low_write.sh
+```
+
+The script keeps the project in `/var/www/clock_alarm`, disables the old
+`www-data` cron entries, enables `clock-alarm-loop.service`, moves journald to
+volatile storage, and disables noisy OS timers/services.
+
+Legacy cron setup:
+
 ```bash
 crontab -e
 ```
 
 ```bash
-* * * * * /bin/bash /home/akeb/clock_alarm/cron_play.sh
-* * * * * (sleep 10 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
-* * * * * (sleep 20 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
-* * * * * (sleep 30 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
-* * * * * (sleep 40 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
-* * * * * (sleep 50 ; /bin/bash /home/akeb/clock_alarm/cron_play.sh)
+* * * * * /bin/bash /var/www/clock_alarm/cron_play.sh
+* * * * * (sleep 10 ; /bin/bash /var/www/clock_alarm/cron_play.sh)
+* * * * * (sleep 20 ; /bin/bash /var/www/clock_alarm/cron_play.sh)
+* * * * * (sleep 30 ; /bin/bash /var/www/clock_alarm/cron_play.sh)
+* * * * * (sleep 40 ; /bin/bash /var/www/clock_alarm/cron_play.sh)
+* * * * * (sleep 50 ; /bin/bash /var/www/clock_alarm/cron_play.sh)
 ```
 
 ### Config Nginx
@@ -42,7 +83,7 @@ server {
   listen [::]:80 default_server;
 
   access_log  off;
-  root /home/akeb/clock_alarm/;
+  root /var/www/clock_alarm/;
 
   index index.html index.php;
 

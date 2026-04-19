@@ -41,9 +41,6 @@ foreach($alarms as $k=>$alarm) {
 	$param['update_time'] = time();
 	$param['play_last_time'] = $minuteEndTime;
 	\ClockAlarm::save($param);
-	echo ('PLAY id='.$alarm['id']);
 	exec('nohup ./play.sh sounds/'. $alarm['sound'] . '.mp3 '.intval($alarm['volume']).' &> /dev/null & ');
 	break;
 }
-
-safe_file_rewrite('get_database_hash.txt', md5_file(constant('SQL_DB_FILE_NAME')));
